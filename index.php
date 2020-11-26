@@ -2,6 +2,8 @@
 include_once 'Employe.php';
 include_once 'Independant.php';
 include_once 'Staff.php';
+include_once  'Facade/Usine.php';
+include_once  'Facade/UsineFacade.php';
 include_once 'EmployeFactory.php';
 include_once 'FactureBuilder.php';
 include_once 'Iterator/FactureIterator.php';
@@ -45,6 +47,9 @@ $listFacture2 = [
         ->addLabel('Facture 3')
         ->build(),
 ];
+
+$usine = new UsineFacade(new Usine);
+$usine->iWantBigUsine();
 
 $myEmployees = Staff::getInstance();
 $myEmployees->add(EmployeFactory::CreateEmployee("Salesman", [ "Pierre", "Paul", 54, "2010", 45000]));

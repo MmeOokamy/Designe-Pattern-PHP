@@ -1,25 +1,19 @@
 <?php
 
-interface ObserverInterface
+class detachEmployee
 {
-    public function  handle();
-}
-
-
-class detachEmployee implements ObserverInterface
-{
-    public function handle()
+    public function handle(Employe $employe)
     {
-        echo'Byebye Employee' . PHP_EOL;
+        echo'Byebye'. $employe->nom . PHP_EOL;
     }
 
 
 }
 
-class addEmployee implements  ObserverInterface
+class addEmployee
 {
-    public function handle()
+    public function handle(Employe $employe)
     {
-        echo'Employe Ajouter' . PHP_EOL;
+        echo'Employe Ajouter!' . PHP_EOL . ' Bienvenue chez nous' . $employe->nom  . PHP_EOL;
     }
 }

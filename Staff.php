@@ -8,9 +8,8 @@ include_once  'observer/Observer.php';
 class Staff
 {
     private static  $instance;
-
-    public $employees;
-    protected $observers = [];
+    private static $observers = [];
+    protected $employees;
     protected $counter;
 
 
@@ -30,32 +29,20 @@ class Staff
     public function add($employee)
     {
         $this->employees[] = $employee;
-        $this->notify();notify('add', $employee);
+        self::notify('add', $employee);
     }
 
-    public function attach($observers){
-        if (is_array($observers)){
-            foreach ( $observers as $observer){
-                if (!$observer instanceof  ObserverInterface) {
-                    throw new Exception();
-                }
-                $this->attach($observer);
-            }
-            return ;
-        }
-        $this->observers[] = $observers;
-    }
-
-    public  function  deleteEmployee($employees)
+    public  function  deleteEmployee(Employe $toRemove)
     {
-        unset($this->observers[$employees]) ;
+        $this->employees = array_filter($this->employees, function (Employe $employe) use ($toRemove){
+            return $employe->isSame($toRemove);
+        });
+    self::notify('remove', $toRemove);
     }
 
-    public function notify()
+    public function notify($poste, $instance)
     {
-        foreach ($this->observers as $observer){
-            $observer->handle();
-        }
+        self::$observers[$poste]->handle($instance);
     }
 
     public function displaySalaries()
